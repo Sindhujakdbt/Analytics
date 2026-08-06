@@ -1,0 +1,1 @@
+select *from ods.hr.src_employees
