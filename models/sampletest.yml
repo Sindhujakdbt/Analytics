@@ -1,0 +1,19 @@
+version: 2
+
+models: 
+  - name: firststage_employees
+    description: stage model
+    columns:
+      - name: first_name
+        tests:
+          - not_null
+
+  
+      - name: email
+        tests:
+          - unique  
+
+      - name: employee_id
+        tests: 
+          - unique
+          - not_null

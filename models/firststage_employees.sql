@@ -2,7 +2,7 @@
     config(materialized= 'incremental') 
     }}
     
-    select EMPLOYEE_ID,
+select EMPLOYEE_ID,
 FIRST_NAME,
 LAST_NAME,
 EMAIL,
@@ -14,7 +14,7 @@ COMMISSION_PCT,
 MANAGER_ID,
 DEPARTMENT_ID,
 current_timestamp as LOAD_TIME,
-from ods.hr.src_employees as src
+from {{ source('hr', 'src_employees')}} as src
 
 {% if is_incremental () %}
 where src.load_time> (select coalesce (max(load_time), '1900-01-01') from firststage_employees)

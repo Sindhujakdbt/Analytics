@@ -1,5 +1,8 @@
 {{
-    config(materialized= 'incremental')
+    config(materialized= 'incremental',
+    incremental_strategy= 'insert_overwrite',
+    unique_key= 'Employee_id',
+    partition_by = {'field': 'Load_time', 'data_type': 'timestamp'})
     }}
 
     select 
@@ -18,5 +21,5 @@ current_timestamp() LOAD_TIME
 from ods.hr.src_employees as src
 
 {% if is_incremental() %}
-where src.load_time > (select coalesce(max(load_time), '1900-01-01 00:00:00') from {{ this }} )
+where src.load_time > dateadd(day, -7, current_timestamp)
 {% endif %}
